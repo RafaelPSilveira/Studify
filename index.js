@@ -2,40 +2,38 @@
 const { Client, Events, GatewayIntentBits, Collection } = require('discord.js');
 
 const dotenv = require('dotenv');
-dotenv.config()
+dotenv.config();
 const { TOKEN } = process.env;
 
 //Command import
 const fs = require("node:fs");
 const path = require("node:path");
 
-const commandsPath = path.join(__dirname, "commands")
-const commandsFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith(".js"))
+const commandsPath = path.join(__dirname, "commands");
+const commandsFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith(".js"));
 
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-client.commands = new Collection()
+client.commands = new Collection();
 
 for (const file of commandsFiles) {
 
     const filePath = path.join(commandsPath, file)
-    const command = require(filePath)
+    const command = require(filePath);
 
     if ("data" in command && "execute" in command) {
-        client.commands.set(command.data.name, command)
+        client.commands.set(command.data.name, command);
     } else {
         console.log(`This command in ${filePath} is missing "data" or "execute"`);
     }
-}
+};
 
 
-// When the client is ready, run this code (only once)
-// We use 'c' for the event parameter to keep it separate from the already defined 'client'
+// Log in to Discord with your client's token
 client.once(Events.ClientReady, c => {
     console.log(`Ready! Logged in as ${c.user.tag}`);
 });
 
-// Log in to Discord with your client's token
 client.login(TOKEN);
 
 //Listener of interactions with the bot
@@ -63,17 +61,18 @@ client.on(Events.InteractionCreate, async interacation => {
                 await interacation.reply("Documentação do Vue.js: https://vuejs.org/")
             break;   
         }
-    }
+    };
+    
     if (!interacation.isChatInputCommand()) return
-    const command = interacation.client.commands.get(interacation.commandName)
+    const command = interacation.client.commands.get(interacation.commandName);
     if (!command) {
         console.error("Comando não encontrado");
         return
     }
     try {
-        await command.execute(interacation)
+        await command.execute(interacation);
     } catch (error) {
         console.error(error);
-        await interacation.replay("Houve um erro ao executar este comando!")
+        // await interacation.reply("Houve um erro ao executar este comando!");
     }
-})
+});

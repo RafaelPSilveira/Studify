@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder, Component } = require("discord.js")
+const { SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder, Component } = require("discord.js");
 
 const row = new ActionRowBuilder()
     .addComponents(
@@ -32,7 +32,7 @@ const row = new ActionRowBuilder()
                     value: "vuejs"
                 }
             )
-    )
+    );
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -42,4 +42,4 @@ module.exports = {
     async execute(interaction) {
         await interaction.reply({content: "Selecione uma das techs abaixo:", components: [row]})
     }
-}
+};

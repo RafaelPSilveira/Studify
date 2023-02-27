@@ -20,9 +20,7 @@ const exampleEmbed = new EmbedBuilder()
     { name: '$ git merge [nome-branch]', value: 'Combina o histórico da branch especificada a branch atual', inline: true },
     { name: '$ git push [alias] [branch]', value: 'Envia todos os commits do branch local para o GitHub', inline: true },
     { name: '$ git pull', value: 'Baixa o histórico e incorpora as mudanças', inline: true }, 
-    )
-
-// channel.send({ embeds: [exampleEmbed] });
+    );
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -32,4 +30,4 @@ module.exports = {
     async execute(interaction) {
         await interaction.reply({ embeds: [exampleEmbed] });
     }
-}
+};
